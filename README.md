@@ -1,2 +1,5 @@
 # Run-to-the-BAMs
-Snakemake pipeline to process RNA-seq reads from own experiments or SRA-database and output BAMs and Bigwigs
+Snakemake pipeline to process RNA-seq reads from own experiments or SRA-database and and output normalised counts, BigWig and BAM files and a quality report.
+
+COMMING SOON!!!!
+
