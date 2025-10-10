@@ -2,11 +2,11 @@
 
 ##  - An automatic and efficient Snakemake workflow for RNA-seq data processing - 
 
-
+[TO BE UPDATED, KPJ 20251010]
 
 ## Pipeline overview
 
-![](/Run-to-the-BAMs/misc/rna-seq snakemake.jpeg)
+![](https://github.com/kpors/Run-to-the-BAMs/misc/rna_seq_snakemake.jpeg)
 
 The Run-To-The_BAMs pipeline automates RNA-seq data processing from raw FASTQ files to quality-checked, mapped, and normalised gene counts, along with visualisation-ready BigWig files.
 
