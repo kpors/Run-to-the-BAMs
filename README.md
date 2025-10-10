@@ -8,7 +8,20 @@
 
 ![](/Run-to-the-BAMs/misc/rna-seq snakemake.jpeg)
 
+The Run-To-The_BAMs pipeline automates RNA-seq data processing from raw FASTQ files to quality-checked, mapped, and normalised gene counts, along with visualisation-ready BigWig files.
 
+In this pipeline, you either upload our own FASTQ files or select SRR IDs from the SRA Archive for analysis. The pipeline has following steps:
+
+- Quality control (FastQC, Trim Galore!, MultiQC)
+  - Output: Read and mapping quality control report
+- Mapping reads to selected genome (STAR)
+  - Output: BAM and BAI file
+- Count reads mapped to genome (HTSeq)
+  - Output: Raw gene counts in CSV format including gene id, gene name and gene biotype
+- Normalise counts by DeSeq2 and TPM methods (DeSeq2, R)
+  - Output: Normalised gene counts in CSV format including gene id, gene name and gene biotype
+- Generate BigWig file (deepTools)
+  - Output: Normalised and raw BigWig files for both plus and minus strand
 
 
 
