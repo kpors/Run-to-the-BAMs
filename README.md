@@ -2,11 +2,11 @@
 
 ##  - An automatic and efficient Snakemake workflow for RNA-seq data processing - 
 
-
+[TO BE UPDATED, KPJ 20251010]
 
 ## Pipeline overview
 
-![](misc/rna-seq snakemake.jpeg)
+![](https://github.com/kpors/Run-to-the-BAMs/misc/rna_seq_snakemake.jpeg)
 
 
 
