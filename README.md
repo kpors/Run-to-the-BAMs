@@ -1,3 +1,6 @@
+# Run To The BAMs
+
+
 SAMPLE ID & FILE NAMES
 <sample_id>_R1.fastq.gz
 <sample_id>_R2.fastq.gz
