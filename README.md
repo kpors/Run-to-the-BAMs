@@ -6,7 +6,7 @@
 
 ## Pipeline overview
 
-![](/Users/au149602/Library/CloudStorage/OneDrive-Aarhusuniversitet/PhD project SLA/Projects/rna_seq_snake_pipeline/readme/rna-seq snakemake.jpeg)
+![](/Run-to-the-BAMs/misc/rna-seq snakemake.jpeg)
 
 
 
