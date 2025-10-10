@@ -1,5 +1,5 @@
 # Run To The BAMs
-
+## - A Snakemake pipeline to process RNA sequencing data
 
 SAMPLE ID & FILE NAMES
 <sample_id>_R1.fastq.gz
