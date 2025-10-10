@@ -30,3 +30,4 @@ dependencies:
   - openssl=3.4.1=h7b32b05_0
   - star=2.7.11b=h5ca1c30_5
   - zstd=1.5.7=hb8e6e7a_2
+prefix: /home/porsj/miniconda3/envs/star

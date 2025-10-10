@@ -1,0 +1,115 @@
+#############################
+### PROJECT CONFIGURATION ###
+#############################
+
+####################
+# Sample table info
+####################
+
+sample_table: 'input/Sample_sheet.csv'
+
+####################
+# Directories
+####################
+input_dir: 'input/'
+fastq_dir: 'input/fastq/'
+input_genome: 'input/genome_files/'
+output_dir: 'output/'
+temp_dir: 'temp/'
+temp_fastq: 'temp/fastq/'
+temp_bam: 'temp/bam/'
+qc_temp: 'temp/quality_control/'
+temp_index: 'temp/genome/'
+temp_count: 'temp/count/'
+log_dir: 'logs/'
+envs_dir: 'envs/'
+
+directories:
+  - input/
+  - input/fastq/
+  - input/genome_files/
+  - output/
+  - temp/
+  - temp/fastq/
+  - temp/bam/
+  - temp/quality_control/
+  - temp/genome/
+  - temp/count/
+  - logs/
+  - envs/
+
+####################
+# Analysis options
+####################
+
+
+
+binned_coverage:
+  bin_size: 200
+  which_strand: 'both'
+  # 'both', 'plus', 'minus', 'none'
+trim_fastq:
+  min_read_length: 25 # Default 25
+  min_read_quality: 20 # Default 20
+  special_adapters:
+    bool: True # Default True (True: Adapters auto-detected; False: special adapters (adapter_1 & adapter_2)
+    adapter_1: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+    adapter_2: 'GATCGTCGGACTGTAGAACTCTGAACGTGTAGATCTCGGTGGTCGCCGTATCATT'
+mapping:
+  human:
+    download_link:
+      fasta: 'https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz'
+      gtf: 'https://ftp.ensembl.org/pub/current_gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz'
+    fasta_file: 'Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz'
+    gtf_file: 'Homo_sapiens.GRCh38.115.gtf.gz'
+  mouse:
+    download_link:
+      fasta: 'https://ftp.ensembl.org/pub/current_fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz'
+      gtf: 'https://ftp.ensembl.org/pub/current_gtf/mus_musculus/Mus_musculus.GRCm39.115.gtf.gz'
+    fasta_file: 'Mus_musculus.GRCm39.dna.primary_assembly.fa.gz'
+    gtf_file: 'Mus_musculus.GRCm39.115.gtf.gz'
+  other:
+    download_link:
+      fasta: 'NA'
+      gtf: 'NA'
+    fasta_file: 'NA'
+    gtf_file: 'NA'
+  align:
+    mismatches_max: '3' # Default 2, max 3 for Bowtie1, unlimited for STAR
+    n_multi_mappers: '100' # No multimappers: 1, Allow multimappers: >1 ~100
+
+
+####################
+# SLURM options
+####################
+
+slurm:
+  sra_tools:
+    threads: 9
+    mem: 8G
+    runtime: 7h
+  trim_fastq:
+    threads: 15
+    mem: 1G
+    runtime: 7h
+  star_align:
+    threads: 9
+    mem: 64G
+    runtime: 7h
+  star_index:
+    threads: 16
+    mem: 64G
+    runtime: 7h
+  htseq:
+    threads: 1
+    mem: 64G
+    runtime: 7h
+  normalise:
+    threads: 1
+    mem: 8G
+    runtime: 7h
+  bamcoverage:
+    threads: 13
+    mem: 4G
+    runtime: 7h
+

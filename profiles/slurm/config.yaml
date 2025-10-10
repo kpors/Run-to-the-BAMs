@@ -1,0 +1,7 @@
+default-resources:
+    slurm_account: 'rnaseq_common'
+    slurm_partition: 'normal'
+    threads: 1
+    mem: 1G
+    runtime: 12h
+

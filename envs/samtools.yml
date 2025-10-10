@@ -1,0 +1,38 @@
+name: samtools
+channels:
+  - conda-forge
+  - gwforg
+  - bioconda
+  - genomedk
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=2_gnu
+  - bzip2=1.0.8=h7f98852_4
+  - c-ares=1.34.5=hb9d3cd8_0
+  - ca-certificates=2025.10.5=hbd8a1cb_0
+  - htslib=1.22.1=h566b1c6_0
+  - keyutils=1.6.1=h166bdaf_0
+  - krb5=1.21.3=h659f571_0
+  - libcurl=8.14.1=h332b0f4_0
+  - libdeflate=1.24=h86f0d12_0
+  - libedit=3.1.20191231=he28a2e2_2
+  - libev=4.33=h516909a_1
+  - libgcc=15.2.0=h767d61c_6
+  - libgcc-ng=15.2.0=h69a702a_6
+  - libgomp=15.2.0=h767d61c_6
+  - liblzma=5.8.1=hb9d3cd8_2
+  - liblzma-devel=5.8.1=hb9d3cd8_2
+  - libnghttp2=1.67.0=had1ee68_0
+  - libssh2=1.11.1=hcf80075_0
+  - libstdcxx=15.2.0=h8f9b012_6
+  - libstdcxx-ng=13.1.0=hfd8a6a1_0
+  - libzlib=1.3.1=hb9d3cd8_2
+  - ncurses=6.5=h2d0b736_3
+  - openssl=3.5.4=h26f9b46_0
+  - samtools=1.22.1=h96c455f_0
+  - xz=5.8.1=hbcc6ac9_2
+  - xz-gpl-tools=5.8.1=hbcc6ac9_2
+  - xz-tools=5.8.1=hb9d3cd8_2
+  - zlib=1.3.1=hb9d3cd8_2
+  - zstd=1.5.7=hb8e6e7a_2
+prefix: /home/porsj/miniconda3/envs/samtools
