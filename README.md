@@ -1,33 +1,115 @@
-# Run To The BAMs
-## - A Snakemake pipeline to process RNA sequencing data
+# Run-To-The-BAMs
 
-SAMPLE ID & FILE NAMES
-<sample_id>_R1.fastq.gz
-<sample_id>_R2.fastq.gz
-<SRA_id>_R1.fastq.gz
-<SRA_id>_R2.fastq.gz
-
-DATA INPUT
-For each run it is only possible to process fastq files from
-    - either input folder (input/fastq/) or SRA archive
-AND only possible to process fastq data type that are
-    - either paired-end or single read
-AND only reads with the same read length
-
-If you need to proces both fastq files from input folder and SRA archive or
-fastq data that are sequenced as paired-end and single reads or with different read lengths, please run these separately
+##  - An automatic and efficient Snakemake workflow for RNA-seq data processing - 
 
 
 
-SAMPLE SHEET
-It is RECOMMENDED to open and edit the sample sheet in either Excel or Numbers.
-It is OBLIGATORY to save/export the sample sheet as CSV and put it in the input folder
+## Pipeline overview
+
+![](/Users/au149602/Library/CloudStorage/OneDrive-Aarhusuniversitet/PhD project SLA/Projects/rna_seq_snake_pipeline/readme/rna-seq snakemake.jpeg)
 
 
-TRIMMING
-By default adapters are auto-detected with Trim-Galore, that is used to trim the fastq files. If you want to put in
-adapter sequences manually, you need to do following changes in the ./config/config.yaml file:
-    - Change ['trim_fastq']['special_adapters']['bool'] to False
-    - Add your first adapter sequence in ['trim_fastq']['special_adapters']['adapter_1']
-    - Add your second adapter sequence in ['trim_fastq']['special_adapters']['adapter_2']
 
+
+
+## Requirements
+
+This pipeline is designed to run on a **SLURM-based high-performance computing (HPC) cluster**.  
+It uses **Snakemake** to submit and manage jobs automatically through SLURM.  
+
+To efficiently process RNA-seq data, the HPC node should have at least **64 GB of RAM** and **16 CPU cores**, but when running several samples or workflow rules in parallel, proportionally higher resources are required.
+
+
+
+## Installation
+
+#### Run-to-the-bams
+
+On your HPC cluster, navigate to the directory designated for storing the pipeline files before downloading them. 
+
+Download pipeline files:
+
+```
+bash
+
+$ git clone https://github.com/kpors/Run-to-the-BAMs
+```
+
+
+
+#### Conda
+
+In this manual, we use **Conda** to manage the software environment required for running the pipeline.  
+It is therefore important that you have Conda installed.  
+If Conda is not already available on your system, you can install it by following the commands below, line by line.
+
+##### Conda installation
+
+```
+$ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O miniforge.sh
+$ chmod +x miniforge.sh
+$ bash miniforge.sh -b
+$ ./miniforge3/bin/conda init bash
+```
+
+##### Conda configuration
+
+These settings ensure that Conda installs packages from the correct bioinformatics channels with strict version control.
+
+```
+$ conda config --append channels bioconda
+$ conda config --append channels genomedk
+$ conda config --set channel_priority strict
+$ conda config --set auto_activate_base false
+```
+
+
+
+#### Snakemake installation
+
+To enable the use of Snakemake and its associated tools, install it in a Conda environment.
+
+```
+$ conda create -n snakemake snakemake-executor-plugin-slurm snakemake
+```
+
+Activate the environment 
+
+```
+$ conda activate snakemake
+```
+
+
+
+#### Snakemake pipeline execution
+
+##### Processing own FASTQ files
+
+Upload FASTQ files to Run-to-the-bams/input/fastq/
+
+Fill out the sample sheet in Run-to-the-bams/input/ and save it as a CSV exactly as this:
+
+Run-to-the-bams/input/Sample_sheet.csv
+
+##### Processing FASTQ files from SRA Archive (https://www.ncbi.nlm.nih.gov/sra)
+
+Fill out the sample sheet in Run-to-the-bams/input/ with SRRXXXXXXX IDs and save it as a CSV exactly as this:
+
+Run-to-the-bams/input/Sample_sheet.csv
+
+Run the pipeline
+
+Test if everything is alright (dry-run):
+
+```
+(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited --dry-run 
+```
+
+Run to the BAMs:
+
+```
+(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited
+```
+
+After the pipeline is done output files can be found in the output directory:
+Run-to-the-bams/output/
