@@ -6,7 +6,7 @@
 
 ## Pipeline overview
 
-![](/Run-to-the-BAMs/misc/rna-seq snakemake.jpeg)
+![](misc/rna-seq snakemake.jpeg)
 
 
 
