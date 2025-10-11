@@ -2,7 +2,19 @@
 
 ##  - An automatic and efficient Snakemake workflow for RNA-seq data processing - 
 
+![Version](https://img.shields.io/badge/version-1.1-blue)
+![Snakemake](https://img.shields.io/badge/Snakemake-≥7.0-green)
+
+## Version 1.1 update
+
+- Environments updated
+- SLURM profile updated
+- Bash scripts updated in readme file
+  - Add SLURM account id in bash script
+
 [README TO BE UPDATED, KPORS 20251011]
+
+
 
 ## Pipeline overview
 
