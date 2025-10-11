@@ -93,4 +93,3 @@ dependencies:
   - zlib-ng=2.2.4=h7955e40_0
   - zstandard=0.23.0=py312h66e93f0_1
   - zstd=1.5.7=hb8e6e7a_2
-prefix: /home/porsj/miniconda3/envs/trim_galore

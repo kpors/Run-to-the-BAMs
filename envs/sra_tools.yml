@@ -67,4 +67,3 @@ dependencies:
   - sra-tools=3.2.1=h4304569_1
   - zlib=1.3.1=hb9d3cd8_2
   - zstd=1.5.7=hb8e6e7a_2
-prefix: /home/porsj/miniconda3/envs/sra_tools

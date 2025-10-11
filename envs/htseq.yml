@@ -88,4 +88,3 @@ dependencies:
   - xorg-libxau=1.0.12=hb9d3cd8_0
   - xorg-libxdmcp=1.1.5=hb9d3cd8_0
   - zstd=1.5.7=hb8e6e7a_2
-prefix: /home/porsj/miniconda3/envs/htseq
