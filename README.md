@@ -59,6 +59,8 @@ If Conda is not already available on your system, you can install it by followin
 ##### Conda installation
 
 ```
+bash
+
 $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O miniforge.sh
 $ chmod +x miniforge.sh
 $ bash miniforge.sh -b
@@ -70,6 +72,8 @@ $ ./miniforge3/bin/conda init bash
 These settings ensure that Conda installs packages from the correct bioinformatics channels with strict version control.
 
 ```
+bash
+
 $ conda config --append channels bioconda
 $ conda config --append channels genomedk
 $ conda config --set channel_priority strict
@@ -83,12 +87,16 @@ $ conda config --set auto_activate_base false
 To enable the use of Snakemake and its associated tools, install it in a Conda environment.
 
 ```
+bash
+
 $ conda create -n snakemake snakemake-executor-plugin-slurm snakemake
 ```
 
 Activate the environment 
 
 ```
+bash
+
 $ conda activate snakemake
 ```
 
@@ -115,12 +123,20 @@ Run the pipeline
 Test if everything is alright (dry-run):
 
 ```
-(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited --default-resources slurm_account=<my_slurm_account> --dry-run 
+bash
+
+$ cd Run-to-the-BAMs
+
+[Run-to-the-BAMs] $ conda activate snakemake
+
+(snakemake)[Run-to-the-BAMs] $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited --default-resources slurm_account=<my_slurm_account> --dry-run 
 ```
 
 Run to the BAMs:
 
 ```
+bash
+
 (snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited slurm_account=<my_slurm_account>
 ```
 
