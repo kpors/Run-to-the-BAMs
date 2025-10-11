@@ -2,7 +2,7 @@
 
 ##  - An automatic and efficient Snakemake workflow for RNA-seq data processing - 
 
-[TO BE UPDATED, KPJ 20251010]
+[README TO BE UPDATED, KPORS 20251011]
 
 ## Pipeline overview
 
@@ -115,14 +115,18 @@ Run the pipeline
 Test if everything is alright (dry-run):
 
 ```
-(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited --dry-run 
+(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited --default-resources slurm_account=<my_slurm_account> --dry-run 
 ```
 
 Run to the BAMs:
 
 ```
-(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited
+(snakemake) $ snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited slurm_account=<my_slurm_account>
 ```
 
-After the pipeline is done output files can be found in the output directory:
+Remember to add your SLURM account in <my_slurm_account>
+
+If your HPC only allows limited number of parallel jobs change "unlimited" in --jobs unlimited to the maximum allowed number of jobs.
+
+After the pipeline has finished output files can be found in the output directory:
 Run-to-the-bams/output/
