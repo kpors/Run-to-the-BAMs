@@ -1,9 +1,8 @@
 rule multiqc_report:
     # Description
     input:
-        input_files=expand(
-            config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
-            sample_id=sample_ids)
+        expand(config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam', sample_id=sample_ids),
+        expand(config['qc_temp'] + date_dir + '{sample_id}_fastqc.zip', sample_id=sample_ids)
     output:
         output_files = config['output_dir'] + date_dir + 'multiqc_report.html'
     conda:

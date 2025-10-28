@@ -18,7 +18,7 @@ def extract_sample_info(sample_sheet):
         dict_keys = ['organism', 'fa_link', 'gtf_link', 'seq_type', 'read_length', 'input_type', 'trim_detection',
                      'trim_adapter1', 'trim_adapter2', 'trim_min_length', 'trim_min_quality',
                      'map_multimapper', 'map_mismatches', 'count_strandedness', 'count_align_mode',
-                     'normalisation']
+                     'bigwig']
         dict_values = []
         # Numeric options
         line_idx = lines[3].split(';')
@@ -153,12 +153,8 @@ def messages(sample_sheet, fastq_dir):
         elif options_dict['count_align_mode'] == '3':
             good_dict_options['count_align_mode'] = 'Intersection-nonempty'
 
-        if options_dict['normalisation'] == '1':
-            good_dict_options['normalisation'] = 'TPM'
-        elif options_dict['normalisation'] == '2':
-            good_dict_options['normalisation'] = 'DeSeq2'
-        elif options_dict['normalisation'] == '3':
-            good_dict_options['normalisation'] = 'TPM & DeSeq2'
+        good_dict_options['bigwig'] = options_dict['bigwig']
+
         options_good_messages = '\n' \
         '\n' \
         '###########################################################' + '\n' \
@@ -178,10 +174,11 @@ def messages(sample_sheet, fastq_dir):
         '#   Number of multimappers allowed:   ' + options_dict['map_multimapper'] + '\n' \
         '#   Number of mismatches allowed:     ' + options_dict['map_mismatches'] + '\n' \
         '\n' \
-        '# Counting and normalisation parameters:' + '\n' \
+        '# Counting:' + '\n' \
         '#   Strandedness:                     ' + good_dict_options['count_strandedness'] + '\n' \
         '#   Alignment mode:                   ' + good_dict_options['count_align_mode'] + '\n' \
-        '#   Normalisation mode:               ' + good_dict_options['normalisation'] + '\n' \
+        '\n' \
+        '# BigWig bin size:                    ' + good_dict_options['bigwig'] + '\n' \
         '###########################################################' + '\n'
 
 
@@ -221,8 +218,8 @@ def messages(sample_sheet, fastq_dir):
             error_dict_options['count_strandedness'] = '- Missing counting strandedness information'
         if options_dict['count_align_mode'] == '0':
             error_dict_options['count_align_mode'] = '- Missing counting alignment mode information'
-        if options_dict['normalisation'] == '0':
-            error_dict_options['normalisation'] = '- Missing counting alignment mode information'
+        if options_dict['biwig'] == '0':
+            error_dict_options['bigwig'] = '- Missing counting alignment mode information'
         # Join all errors
         options_error_messages = \
         '###########################################################' + '\n' \
@@ -263,15 +260,15 @@ def messages(sample_sheet, fastq_dir):
                     error_samples.append(key)
 
         # Check design factors are noted if needed
-        if options_dict['normalisation'] in range(2,3):
-            for key in sample_data_dict.keys():
-                if str(sample_data_dict[key][3]):
-                    if str(sample_data_dict[key][4]):
-                        good_samples.append(key)
-                    else:
-                        error_samples.append(key)
-                else:
-                    error_samples.append(key)
+        # if options_dict['normalisation'] in range(2,3):
+        #     for key in sample_data_dict.keys():
+        #         if str(sample_data_dict[key][3]):
+        #             if str(sample_data_dict[key][4]):
+        #                 good_samples.append(key)
+        #             else:
+        #                 error_samples.append(key)
+        #         else:
+        #             error_samples.append(key)
 
         # Collect samples checks and make shout out line
         if len(error_samples) == 0:
@@ -289,7 +286,7 @@ def messages(sample_sheet, fastq_dir):
             '###########################################################' + '\n' \
             '# Errors noted - has to be fixed before running pipeline  #' + '\n' \
             '###########################################################' + '\n' \
-            '# Missing FASTQ file or DeSeq2 design factor information ' + '\n' \
+            '# Missing FASTQ file information ' + '\n' \
             '# in for following samples:' + '\n' \
             + ('\n').join(list(set(error_samples))) + '\n' \
             '###########################################################'

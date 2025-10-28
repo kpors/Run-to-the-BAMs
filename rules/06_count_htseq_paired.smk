@@ -1,7 +1,7 @@
 rule count_htseq_paired:
     # Description
     input:
-        bam=config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
+        bam=config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
         gtf = config['temp_index'] + gtf_file.replace('.gtf.gz', '.gtf')
     output:
         config['temp_count'] + date_dir + '{sample_id}.tsv'
@@ -18,7 +18,7 @@ rule count_htseq_paired:
         log = config['log_dir'] + '{sample_id}_htseq.log'
     shell:
         '''htseq-count --stranded {params.strand_mode} --format bam --mode {params.align_mode} \
-        --with-header --order pos \
+        --with-header --order pos --nonunique all\
         --counts_output {output} {input.bam} {input.gtf} \
         2> {log.log}
         '''

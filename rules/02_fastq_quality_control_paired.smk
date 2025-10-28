@@ -1,9 +1,9 @@
 rule fastq_quality_control_paired:
     # Description
     input:
-        input_files = [
-            lambda wc: config['fastq_dir'] + sample_data_dict[wc.sample_id][0].replace('fq.gz', 'fastq.gz'),
-            lambda wc: config['fastq_dir'] + sample_data_dict[wc.sample_id][1].replace('fq.gz', 'fastq.gz')
+        input_files = lambda wc:[
+            config['fastq_dir'] + sample_data_dict[wc.sample_id][0].replace('fq.gz', 'fastq.gz'),
+            config['fastq_dir'] + sample_data_dict[wc.sample_id][1].replace('fq.gz', 'fastq.gz')
         ]
     output:
         config['qc_temp'] + date_dir + '{sample_id}_1_fastqc.zip',

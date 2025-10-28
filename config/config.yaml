@@ -23,6 +23,7 @@ temp_index: 'temp/genome/'
 temp_count: 'temp/count/'
 log_dir: 'logs/'
 envs_dir: 'envs/'
+scripts_dir: 'scripts'
 
 directories:
   - input/

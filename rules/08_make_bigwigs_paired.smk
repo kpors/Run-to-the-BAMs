@@ -1,10 +1,10 @@
 rule bigwig_normalised_plus:
     input:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
-        bam_index= config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',
+        bam = config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
+        bam_index= config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',
         size_factors = config['output_dir'] + date_dir + 'counts/deseq2_size_factors.csv'
     output:
-        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_sfNorm_bin5_plus.bw'
+        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_sfNorm_bin' + str(bw_bin_size) +'_plus.bw'
     conda:
         '../' + config['envs_dir'] + 'deeptools.yml'
     threads: config['slurm']['bamcoverage']['threads']
@@ -13,7 +13,7 @@ rule bigwig_normalised_plus:
         runtime=config['slurm']['bamcoverage']['runtime']
     params:
         threads = str(int(config['slurm']['bamcoverage']['threads']) - 1),
-        bin_size = 5,
+        bin_size = bw_bin_size,
         out_dir= config['output_dir'] + date_dir + 'bigwig/',
         sample_id = '{sample_id}'
     log:
@@ -31,11 +31,11 @@ rule bigwig_normalised_plus:
 
 rule bigwig_normalised_minus:
     input:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
-        bam_index= config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai' ,
+        bam = config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
+        bam_index= config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai' ,
         size_factors = config['output_dir'] + date_dir + 'counts/deseq2_size_factors.csv'
     output:
-        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_sfNorm_bin5_minus.bw'
+        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_sfNorm_bin' + str(bw_bin_size) +'_minus.bw'
     conda:
         '../' + config['envs_dir'] + 'deeptools.yml'
     threads: config['slurm']['bamcoverage']['threads']
@@ -44,7 +44,7 @@ rule bigwig_normalised_minus:
         runtime=config['slurm']['bamcoverage']['runtime']
     params:
         threads = str(int(config['slurm']['bamcoverage']['threads']) - 1),
-        bin_size = 5,
+        bin_size = bw_bin_size,
         out_dir= config['output_dir'] + date_dir + 'bigwig/',
         sample_id = '{sample_id}'
     log:
@@ -62,10 +62,10 @@ rule bigwig_normalised_minus:
 
 rule bigwig_unnormalised_plus:
     input:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
-        bam_index= config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
+        bam = config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
+        bam_index= config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
     output:
-        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin5_plus.bw'
+        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin' + str(bw_bin_size) +'_plus.bw'
     conda:
         '../' + config['envs_dir'] + 'deeptools.yml'
     threads: config['slurm']['bamcoverage']['threads']
@@ -74,7 +74,7 @@ rule bigwig_unnormalised_plus:
         runtime=config['slurm']['bamcoverage']['runtime']
     params:
         threads = str(int(config['slurm']['bamcoverage']['threads']) - 1),
-        bin_size = 5,
+        bin_size = bw_bin_size,
         out_dir= config['output_dir'] + date_dir + 'bigwig/',
         sample_id = '{sample_id}'
     log:
@@ -90,10 +90,10 @@ rule bigwig_unnormalised_plus:
 
 rule bigwig_unnormalised_minus:
     input:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
-        bam_index= config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
+        bam = config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam',
+        bam_index= config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
     output:
-        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin5_minus.bw'
+        bw = config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin' + str(bw_bin_size) +'_minus.bw'
     conda:
         '../' + config['envs_dir'] + 'deeptools.yml'
     threads: config['slurm']['bamcoverage']['threads']
@@ -102,7 +102,7 @@ rule bigwig_unnormalised_minus:
         runtime=config['slurm']['bamcoverage']['runtime']
     params:
         threads = str(int(config['slurm']['bamcoverage']['threads']) - 1),
-        bin_size = 5,
+        bin_size = bw_bin_size,
         out_dir= config['output_dir'] + date_dir + 'bigwig/',
         sample_id = '{sample_id}'
     log:

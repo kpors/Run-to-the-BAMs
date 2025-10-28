@@ -24,6 +24,7 @@ date_dir = today + '/'
 for d in config['directories']:
     os.makedirs(d, exist_ok=True)
 os.makedirs(config['output_dir'] + date_dir, exist_ok=True)
+os.makedirs(config['output_dir'] + date_dir + 'bam_files/', exist_ok=True)
 os.makedirs(config['qc_temp'] + date_dir, exist_ok=True)
 
 # Organism
@@ -70,6 +71,10 @@ elif align_id == 2:
 elif align_id == 3:
     align_mode = 'intersection-nonempty'
 
+# Extract bigwig bin size
+bw_bin_size = int(options_dict['bigwig'])
+
+
 #######################################
 # Workflow
 #######################################
@@ -79,9 +84,10 @@ if run_check_bool:
     print(options_good_messages)
     # Proces fastq files from input folder (input/fastq/) or SRA Archive
     if options_dict['seq_type'] == '1': # Paired end reads
+        if options_dict['input_type'] == '1':  # From uploaded FASTQ files
+            include: 'rules/01_rename_fq.smk'
         if options_dict['input_type'] == '2':  # From SRA Archive
             include: 'rules/01_fastq_download_paired_end.smk'
-        include: 'rules/01_rename_fq.smk'
         include: 'rules/02_fastq_quality_control_paired.smk'
         if options_dict['trim_detection'] == '1': # Adapters auto-detected
             include: 'rules/03_trim_fastq_paired_autodetect_adapters.smk'
@@ -95,13 +101,14 @@ if run_check_bool:
             include: 'rules/06_merge_counts.smk'
             include: 'rules/07_normalise_counts.smk'
         include: 'rules/08_make_bigwigs_paired.smk'
-        include: 'rules/09_multiqc_report.smk'
+        include: 'rules/09_multiqc_report_paired.smk'
         include: 'rules/10_save_pipeline_parameters.smk'
 
     elif options_dict['seq_type'] == '2': # Single reads
+        if options_dict['input_type'] == '1':  # From uploaded FASTQ files
+            include: 'rules/01_rename_fq.smk'
         if options_dict['input_type'] == '2':  # From SRA Archive
             include: 'rules/01_fastq_download_single_end.smk'
-        include: 'rules/01_rename_fq.smk'
         include: 'rules/02_fastq_quality_control_single.smk'
         if options_dict['trim_detection'] == '1': # Adapters auto-detected
             include: 'rules/03_trim_fastq_single_autodetect_adapters.smk'
@@ -115,7 +122,7 @@ if run_check_bool:
             include: 'rules/06_merge_counts.smk'
             include: 'rules/07_normalise_counts.smk'
         include: 'rules/08_make_bigwigs_single.smk'
-        include: 'rules/09_multiqc_report.smk'
+        include: 'rules/09_multiqc_report_single.smk'
         include: 'rules/10_save_pipeline_parameters.smk'
 else:
     print(options_error_messages)
@@ -132,21 +139,20 @@ if run_check_bool:
         if options_dict['seq_type'] == '1':
             rule all:
                 input:
-                    expand(config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai', sample_id=sample_ids),
+                    expand(config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai', sample_id=sample_ids),
                     config['output_dir'] + date_dir + 'counts/counts_normalised_deseq2.csv',
                     config['output_dir'] + date_dir + 'counts/counts_normalised_tpm.csv',
-                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_{norm_id}_bin5_{strand}.bw',
+                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_{norm_id}_bin' + str(bw_bin_size) +'_{strand}.bw',
                         sample_id=sample_ids, norm_id=['noNorm','sfNorm'], strand=['plus','minus']),
                     config['output_dir'] + date_dir + 'multiqc_report.html',
                     config['output_dir'] + date_dir + 'pipeline_parameters/templates.py'
         else:
             rule all:
                 input:
-                    expand(config[
-                               'temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
+                    expand(config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
                     config['output_dir'] + date_dir + 'counts/counts_normalised_deseq2.csv',
                     config['output_dir'] + date_dir + 'counts/counts_normalised_tpm.csv',
-                    expand(config[ 'output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_{norm_id}_bin5.bw',
+                    expand(config[ 'output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_{norm_id}_bin' + str(bw_bin_size) + '.bw',
                         sample_id=sample_ids,norm_id=['noNorm', 'sfNorm']),
                     config['output_dir'] + date_dir + 'multiqc_report.html',
                     config['output_dir'] + date_dir + 'pipeline_parameters/templates.py'
@@ -155,16 +161,16 @@ if run_check_bool:
         if options_dict['seq_type'] == '1':
             rule all:
                 input:
-                    expand(config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
-                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin5_{strand}.bw',
+                    expand(config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
+                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin' + str(bw_bin_size) +'_{strand}.bw',
                        sample_id=sample_ids, strand=['plus', 'minus']),
                     config['output_dir'] + date_dir + 'multiqc_report.html',
                     config['output_dir'] + date_dir + 'pipeline_parameters/templates.py'
         else:
             rule all:
                 input:
-                    expand(config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
-                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin5.bw',
+                    expand(config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai',sample_id=sample_ids),
+                    expand(config['output_dir'] + date_dir + 'bigwig/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP_noNorm_bin' + str(bw_bin_size) + '.bw',
                         sample_id=sample_ids),
                     config['output_dir'] + date_dir + 'multiqc_report.html',
                     config['output_dir'] + date_dir + 'pipeline_parameters/templates.py'

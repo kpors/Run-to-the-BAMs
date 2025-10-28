@@ -6,7 +6,8 @@ rule align_star_paired:
         fq2 = config['temp_fastq'] + '{sample_id}_2_val_2.fq',
         index = config['temp_index'] + 'Genome'
     output:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
+        #bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
+        bam = config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
     conda: '../' + config['envs_dir'] + 'star.yml'
     threads: config['slurm']['star_align']['threads']
     resources:
@@ -38,9 +39,10 @@ rule align_star_paired:
 rule index_bam:
     # Description
     input:
-        bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
+        #bam = config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
+        bam=config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam'
     output:
-        index=config['temp_bam'] + date_dir + '{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
+        index=config['output_dir'] + date_dir + 'bam_files/{sample_id}_' + str(genome_id) + '_' + str(multimap_id) + '_noDDUP.bam.bai'
     conda: '../' + config['envs_dir'] + 'samtools.yml'
     #threads:
     #resources:
