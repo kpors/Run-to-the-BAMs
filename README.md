@@ -50,7 +50,8 @@ To efficiently process RNA-seq data, the HPC node should have at least **64 GB o
 
 This program is a open-souce tool deposited on Github and freely available. 
 
-To use the programm you "clone" the program from this Github repository to your computer cluster as mentioned in the installation part, and the program files are downloaded to the directory you coo
+To use the programm you "clone" the program from this Github repository to your computer cluster as mentioned in the installation part, and the program files are downloaded to the directory you own directory.
+[To be updated, kpors 20251028]
 
 
 
