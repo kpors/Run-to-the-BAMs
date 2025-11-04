@@ -255,7 +255,7 @@ Save/export sample sheet as a CSV file named Sample_sheet.csv in /Run-to-the-bam
 
 You can test if everything is filled out properly using the --dry-run command. First go to the /Run-to-the-bams/ directory and the execute the pipeline.
 
-Remember to add your own SLURM account insted of <my_slurm_account> in --default-resources slurm_account=<my_slurm_account>
+Remember to add your own SLURM account insted of <my_slurm_account> in --set-resources all:slurm_account=<my_slurm_account>
 
 If your computer cluster allows less than 1000 jobs, then change the number in --jobs 1000
 
@@ -267,7 +267,8 @@ cd Run-to-the-BAMs
 conda activate snakemake
 
 # Run a test run
-snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs 1000 --default-resources slurm_account=<my_slurm_account> --dry-run 
+snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs 1000 --set-resources all:slurm_account=<my_slurm_account> --dry-run
+
 ```
 
 If everything seems fine, execute the pipeline without --dry-run:
@@ -280,7 +281,7 @@ cd Run-to-the-BAMs
 conda activate snakemake
 
 # Run a test run
-snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs unlimited slurm_account=<my_slurm_account>
+snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs 1000 --set-resources all:slurm_account=<my_slurm_account>
 ```
 
 Remember to add your SLURM account in <my_slurm_account>
