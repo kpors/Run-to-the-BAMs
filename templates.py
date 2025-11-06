@@ -11,6 +11,14 @@ def extract_sample_info(sample_sheet):
     with open(sample_sheet, 'r') as sample_file:
         lines = sample_file.readlines()
 
+        for line in lines:
+            if line.strip():
+                if line.count(';') > line.count(','):
+                    delimiter = ';'
+                else:
+                    delimiter = ','
+                break
+
         # Collect option inputs and control if check box is used
         # Possible values:
         # 0: No string in checkbox
@@ -21,7 +29,7 @@ def extract_sample_info(sample_sheet):
                      'bigwig']
         dict_values = []
         # Numeric options
-        line_idx = lines[3].split(';')
+        line_idx = lines[3].split(delimiter)
         dict_value = line_idx[2]
         input_type = dict_value
         if 1 <= int(dict_value) <= 3:
@@ -30,7 +38,7 @@ def extract_sample_info(sample_sheet):
             dict_values.append('0')
         # Organism links
         for line in lines[4:6]:
-            line_idx = line.split(';')
+            line_idx = line.split(delimiter)
             dict_value = line_idx[2]
             if dict_value == '':
                 dict_values.append('0')
@@ -38,7 +46,7 @@ def extract_sample_info(sample_sheet):
                 dict_values.append(str(dict_value))
         # Numeric options
         for line in lines[6:10]:
-            line_idx = line.split(';')
+            line_idx = line.split(delimiter)
             dict_value = line_idx[2]
             if 1 <= int(dict_value) <= 500:
                 dict_values.append(str(dict_value))
@@ -46,7 +54,7 @@ def extract_sample_info(sample_sheet):
                 dict_values.append('0')
         # Adapter options
         for line in lines[10:12]:
-            line_idx = line.split(';')
+            line_idx = line.split(delimiter)
             dict_value = line_idx[2]
             if dict_value == '':
                 dict_values.append('0')
@@ -54,7 +62,7 @@ def extract_sample_info(sample_sheet):
                 dict_values.append(str(dict_value))
         # Numeric options
         for line in lines[12:19]:
-            line_idx = line.split(';')
+            line_idx = line.split(delimiter)
             dict_value = line_idx[2]
             if 1 <= int(dict_value) <= 1000:
                 dict_values.append(str(dict_value))
@@ -67,7 +75,7 @@ def extract_sample_info(sample_sheet):
         sample_data_dict = {}  # For data and input control management
         for line in lines[21:]:
             if options_dict['input_type'] == '1':
-                line_idx = line.split(';')[1:]
+                line_idx = line.split(delimiter)[1:]
                 sample_id = line_idx[0]
                 if sample_id == '':
                     break
@@ -77,7 +85,7 @@ def extract_sample_info(sample_sheet):
                 sample_data_dict[sample_id] = [str(line_idx[1]), str(line_idx[2]), str(line_idx[3]),
                                                str(line_idx[4])]
             else:
-                line_idx = line.split(';')[1:]
+                line_idx = line.split(delimiter)[1:]
                 sample_id = line_idx[0]
                 if sample_id == '':
                     break
