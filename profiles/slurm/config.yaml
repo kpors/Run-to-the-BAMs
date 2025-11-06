@@ -2,5 +2,5 @@ default-resources:
     slurm_partition: 'normal'
     threads: 1
     mem: 1G
-    runtime: 12h
+    runtime: 720
 
