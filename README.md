@@ -280,7 +280,7 @@ cd Run-to-the-BAMs
 # Activate snakemake environment
 conda activate snakemake
 
-# Run a test run
+# Run the pipeline
 snakemake --wait-for-files --executor slurm --workflow-profile profiles/slurm --use-conda --jobs 1000 --set-resources all:slurm_account=<my_slurm_account>
 ```
 
